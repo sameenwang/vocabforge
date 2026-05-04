@@ -121,14 +121,16 @@ npm run build && npm start # 生产模式
 
 #### 方式三：公网部署（他人可访问）
 
-| 组件 | 推荐平台 | 费用 |
-|------|---------|------|
-| 前端 | Vercel (vercel.com) | 免费 |
-| 后端 | Railway (railway.com) 或 Render | $5-7/月 |
+| 组件 | 平台 | 费用 | 地址 |
+|------|------|------|------|
+| 前端 | Vercel | 免费 | https://frontend-seven-tau-48.vercel.app |
+| 后端 | Render (免费方案) | 免费 | https://vocabforge-backend.onrender.com |
 
 部署步骤：
-1. 后端代码推送到 GitHub → Railway 导入项目 → 自动部署
+1. 后端代码推送到 GitHub → Render 导入项目 → 自动部署
 2. 前端在 Vercel 设置环境变量 `NEXT_PUBLIC_BACKEND_URL` = 后端公网地址
+
+> Render 免费方案超过 15 分钟无访问会休眠，下次请求需等待 30-60 秒冷启动。
 
 ## 6. 关键指标
 
@@ -155,6 +157,7 @@ VocabForge 填补了"台词语境 × 单词学习 × AI 点评"的空白。
 | 版本 | 日期 | 变更 |
 |------|------|------|
 | v0.1.0 | 2026-05-04 | MVP：核心处理引擎 + Web 界面 + 文件上传 + PDF 导出 |
+| v0.1.1 | 2026-05-04 | 部署上线：Vercel (前端) + Render (后端) |
 
 ---
 
@@ -162,38 +165,25 @@ VocabForge 填补了"台词语境 × 单词学习 × AI 点评"的空白。
 
 ---
 
-## 附录：下一步行动
+## 附录：部署情况
 
-如果想让他人通过公网访问，你需要完成以下步骤：
+### 已上线
 
-### 你需要做的事
+| 组件 | 平台 | 地址 |
+|:---|:---|:---|
+| 前端 | Vercel | https://frontend-seven-tau-48.vercel.app |
+| 后端 | Render (免费方案) | https://vocabforge-backend.onrender.com |
 
-1. **注册 GitHub 账号**（如果还没有）→ github.com
-2. **把项目推送到 GitHub**：
-   ```bash
-   cd C:\Users\67373\Desktop\vocabforge
-   git init
-   git add .
-   git commit -m "init"
-   # 在 GitHub 新建仓库后：
-   git remote add origin https://github.com/你的用户名/vocabforge.git
-   git push -u origin main
-   ```
-3. **注册 Railway**（railway.com）→ 用 GitHub 登录
-4. **在 Railway 部署后端**：
-   - New Project → Deploy from GitHub repo → 选择 vocabforge
-   - 设置 Start Command: `uvicorn main:app --host 0.0.0.0 --port 8000`
-   - 部署完成后拿到公网 URL（如 `https://vocabforge-backend.up.railway.app`）
-5. **注册 Vercel**（vercel.com）→ 用 GitHub 登录
-6. **在 Vercel 部署前端**：
-   - Import 同一 GitHub 仓库
-   - Root Directory 设为 `frontend`
-   - 添加环境变量: `NEXT_PUBLIC_BACKEND_URL` = 第 4 步的后端 URL
-   - Deploy 完成即可获得公网链接
+### 国内网络推送代码
 
-### 你也可以先跳过部署
+在国内推送代码到 GitHub 需配置 Clash 代理：
 
-项目目前在本机就能完整使用：
-- 前端已运行在 http://localhost:3000
-- 后端已运行在 http://127.0.0.1:8000
-- 上传文件或粘贴文本 → 点击"生成关联"即可使用
+```bash
+git config --global http.proxy http://127.0.0.1:7897
+git config --global https.proxy http://127.0.0.1:7897
+git push
+git config --global --unset http.proxy
+git config --global --unset https.proxy
+```
+
+端口根据实际 Clash HTTP 代理端口调整。
