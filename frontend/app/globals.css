@@ -1,0 +1,189 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  --background: oklch(0.995 0.005 260);
+  --foreground: oklch(0.25 0.02 260);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.25 0.02 260);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.25 0.02 260);
+  --primary: oklch(0.55 0.22 265);
+  --primary-foreground: oklch(1 0 0);
+  --secondary: oklch(0.97 0.01 260);
+  --secondary-foreground: oklch(0.35 0.02 260);
+  --muted: oklch(0.96 0.008 260);
+  --muted-foreground: oklch(0.5 0.02 260);
+  --accent: oklch(0.7 0.18 145);
+  --accent-foreground: oklch(0.2 0.05 145);
+  --destructive: oklch(0.6 0.25 25);
+  --destructive-foreground: oklch(1 0 0);
+  --border: oklch(0.92 0.01 260);
+  --input: oklch(0.98 0.005 260);
+  --ring: oklch(0.55 0.22 265);
+  --chart-1: oklch(0.6 0.2 280);
+  --chart-2: oklch(0.75 0.15 160);
+  --chart-3: oklch(0.8 0.18 60);
+  --chart-4: oklch(0.65 0.2 330);
+  --chart-5: oklch(0.7 0.18 200);
+  --radius: 1.25rem;
+}
+
+@theme inline {
+  --font-sans: 'Geist', 'Geist Fallback';
+  --font-mono: 'Geist Mono', 'Geist Mono Fallback';
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground;
+  }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0) rotate(-2deg); }
+  50% { transform: translateY(-12px) rotate(2deg); }
+}
+
+@keyframes wiggle {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+@keyframes pop {
+  0% { transform: scale(0); opacity: 0; }
+  70% { transform: scale(1.1); }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+@keyframes slide-up {
+  from { transform: translateY(30px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+@keyframes draw {
+  to { stroke-dashoffset: 0; }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.8; }
+  100% { transform: scale(1.5); opacity: 0; }
+}
+
+@keyframes sparkle {
+  0%, 100% { opacity: 0; transform: scale(0); }
+  50% { opacity: 1; transform: scale(1); }
+}
+
+.animate-float {
+  animation: float 4s ease-in-out infinite;
+}
+
+.animate-float-slow {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-wiggle {
+  animation: wiggle 2s ease-in-out infinite;
+}
+
+.animate-pop {
+  animation: pop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+.animate-slide-up {
+  animation: slide-up 0.5s ease-out forwards;
+}
+
+.animate-draw {
+  stroke-dasharray: 200;
+  stroke-dashoffset: 200;
+  animation: draw 1s ease forwards;
+}
+
+.animate-pulse-ring {
+  animation: pulse-ring 1.5s ease-out infinite;
+}
+
+.animate-sparkle {
+  animation: sparkle 2s ease-in-out infinite;
+}
+
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* ── Print / PDF styles ─────────────────────────────── */
+@media print {
+  .print\:hidden { display: none !important; }
+  body { background: white !important; color: black !important; font-size: 8pt !important; }
+  @page { margin: 0.6cm; size: A4; }
+  .bg-card, [class*="bg-card"] {
+    background: white !important;
+    border: 0.5px solid #ccc !important;
+    break-inside: avoid;
+    padding: 3px 5px !important;
+    border-radius: 2px !important;
+    box-shadow: none !important;
+  }
+  .shadow-sm, .shadow-md, .shadow-lg { box-shadow: none !important; }
+  .border-border\/50 { border-color: #ddd !important; }
+  .text-muted-foreground { color: #444 !important; }
+  mark { background: #fff3cd !important; padding: 0 1px; }
+  .text-xs { font-size: 7pt !important; }
+  .text-sm { font-size: 8pt !important; }
+  .text-\[11px\] { font-size: 7.5pt !important; }
+  .text-\[10px\] { font-size: 7pt !important; }
+  .leading-relaxed { line-height: 1.25 !important; }
+  .space-y-1 > :not([hidden]) ~ :not([hidden]) { margin-top: 2px !important; }
+  .space-y-2 > :not([hidden]) ~ :not([hidden]) { margin-top: 3px !important; }
+  .gap-2 { gap: 4px !important; }
+  .gap-3 { gap: 6px !important; }
+  .p-2\.5 { padding: 3px 5px !important; }
+  .px-3 { padding-left: 5px !important; padding-right: 5px !important; }
+  .py-2\.5 { padding-top: 3px !important; padding-bottom: 3px !important; }
+  .rounded-xl { border-radius: 3px !important; }
+  .rounded-2xl { border-radius: 3px !important; }
+  .max-w-6xl { max-width: 100% !important; padding: 0 0.3cm !important; }
+  header, footer { display: none !important; }
+  .lg\:grid-cols-\[200px_1fr\] { display: block !important; }
+  .md\:grid-cols-2 { grid-template-columns: 1fr 1fr !important; gap: 6px !important; }
+  .md\:grid-cols-1 { grid-template-columns: 1fr !important; }
+  .min-w-0 { min-width: 0 !important; }
+  [class*="min-h"] { min-height: auto !important; }
+}
